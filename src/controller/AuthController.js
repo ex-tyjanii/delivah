@@ -12,6 +12,7 @@ const createToken = (user, responseCode, req, res) => {
 		httpOnly: true,
 		secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
 	});
+	user.password = undefined;
 	res.status(responseCode).json({
 		status: 'success',
 		token,
@@ -28,7 +29,7 @@ const login = async (req, res) => {
 				message: 'Please enter username and password',
 			});
 		}
-		const user = await User.findOne({ email });
+		const user = await User.findOne({ email }).select('+password');
 
 		if (!user || !(await user.decryptPassword(password, user.password))) {
 			return res
