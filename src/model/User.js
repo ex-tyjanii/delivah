@@ -28,6 +28,11 @@ const userSchema = mongoose.Schema({
 			ref: 'User',
 		},
 	],
+	role: {
+		type: String,
+		enum: ['renter', 'landlord'],
+		required: true,
+	},
 	requests: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
