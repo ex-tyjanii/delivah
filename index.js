@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import db from './src/utils/db.js';
 import router from './src/routes/authRouter.js';
 import usersRouter from './src/routes/usersRoutes.js';
+import homeRouter from './src/routes/homeRouter.js';
 
 const app = express();
 app.use(helmet());
@@ -21,7 +22,7 @@ const limit = rateLimit({
 app.use('/api', limit);
 app.use(express.json());
 
-app.use('/api/v1', router, usersRouter);
+app.use('/api/v1', router, usersRouter, homeRouter);
 app.listen(8080, () => {
 	db()
 		.then(() => console.log('database Connected'))

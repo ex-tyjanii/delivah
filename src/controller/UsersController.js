@@ -63,7 +63,7 @@ export const acceptRequest = async (req, res) => {
 				: null;
 			return res.status(201).json({
 				status: 'success',
-				data: currentUser,
+				data: 'Friend request accepted',
 			});
 		} else if (currentUser.friends.includes(user_id)) {
 			return res.status(403).json({
@@ -89,9 +89,7 @@ export const declineFriendRequest = async (req, res) => {
 		// Person reviewing request
 		const currentUser_id = req.body.id;
 		const currentUser = await User.findById(currentUser_id);
-
 		// Get user whose request us being reviewed
-
 		if (!currentUser) {
 			return res.status(401).json({
 				status: 'fail',
@@ -105,7 +103,7 @@ export const declineFriendRequest = async (req, res) => {
 			await currentUser.updateOne({ $pull: { requests: user_id } });
 			return res.status(201).json({
 				status: 'success',
-				data: currentUser,
+				data: 'Friend request sent',
 			});
 		}
 		res.status(400).json({
