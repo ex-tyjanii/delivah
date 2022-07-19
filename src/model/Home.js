@@ -7,6 +7,7 @@ const HomeSchema = mongoose.Schema({
 	zip: { type: String, required: [true, 'ZIP is required'] },
 	number_of_rooms: Number,
 	number_of_baths: Number,
+	billsIncluded: Boolean,
 	desc: { type: String, required: [true, 'Decription is required'] },
 	poster: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 	applicants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],

@@ -28,7 +28,13 @@ export const createHome = async (req, res) => {
 
 export const updateHome = async (req, res) => {
 	try {
-		const home = await Home.findByIdAndUpdate(req.params.id, req.body);
+		const home = await Home.findOne({ _id: req.params.id });
+		if (!home) {
+			return res
+				.status(404)
+				.json({ status: 'fail', message: 'Home not found' });
+		}
+		const homeUpdated = await Home.findByIdAndUpdate(req.params.id, req.body);
 		if (!home) {
 			res.status(400).json({
 				status: 'fail',
@@ -37,7 +43,7 @@ export const updateHome = async (req, res) => {
 		}
 		res.status(200).json({
 			status: 'success',
-			data: home,
+			data: homeUpdated,
 		});
 	} catch (err) {
 		res.status(400).json({
