@@ -45,14 +45,20 @@ const login = async (req, res) => {
 
 const signup = async (req, res) => {
 	try {
-		const { firstname, lastname, email, password } = req.body;
+		const { firstname, lastname, email, password, role } = req.body;
 		const user = await User.findOne({ email });
 		if (user) {
 			return res
 				.status(401)
 				.json({ status: 'fail', message: 'User already exists, please login' });
 		}
-		const newUser = await User.create({ firstname, lastname, email, password });
+		const newUser = await User.create({
+			firstname,
+			lastname,
+			email,
+			password,
+			role,
+		});
 		createToken(newUser, 201, req, res);
 	} catch (err) {
 		res.status(400).json({ status: 'fail', message: err });

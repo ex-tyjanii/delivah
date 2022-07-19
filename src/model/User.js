@@ -22,6 +22,23 @@ const userSchema = mongoose.Schema({
 		required: [true, 'Password is required'],
 		select: false,
 	},
+	friends: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
+		},
+	],
+	role: {
+		type: String,
+		enum: ['renter', 'landlord'],
+		required: true,
+	},
+	requests: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
+		},
+	],
 });
 
 userSchema.pre('save', async function (next) {
@@ -38,6 +55,6 @@ userSchema.methods.decryptPassword = async function (
 	return await bcrypt.compare(enteredPassword, userPassword);
 };
 
-const User = mongoose.model('users', userSchema);
+const User = mongoose.model('User', userSchema);
 
 export default User;
